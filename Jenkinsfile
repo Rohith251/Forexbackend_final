@@ -36,7 +36,7 @@ pipeline {
                     sh """
                         docker network ls | grep my-network || docker network create my-network
                         docker ps -a -q --filter 'name=springboot-container' | grep . && docker rm -f springboot-container || echo No container to stop
-                        docker run -d -p 8081:8081 --name springboot-container --network my-network $DOCKER_IMAGE:latest
+                        docker run -d -p 8082:8082 --name springboot-container --network my-network $DOCKER_IMAGE:latest
                     """
                 }
             }
