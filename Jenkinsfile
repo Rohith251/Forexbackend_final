@@ -11,7 +11,7 @@ pipeline {
             steps {
                 script {
                      
-                        bat 'mvn clean install -DskipTests'
+                        sh 'mvn clean install -DskipTests'
                     
                 }
             }
@@ -23,7 +23,7 @@ pipeline {
             steps {
                 script {
                     
-                        bat "docker build -t %DOCKER_IMAGE%:latest ."
+                        sh "docker build -t %DOCKER_IMAGE%:latest ."
                     
                 }
             }
@@ -32,7 +32,7 @@ pipeline {
         stage('Push Docker Image') {
             steps {
                 script {
-                        bat "docker push %DOCKER_IMAGE%:latest"
+                        sh "docker push %DOCKER_IMAGE%:latest"
                     }
                 }
             }
@@ -41,7 +41,7 @@ pipeline {
         stage('Run Docker Container') {
             steps {
                 script {
-                    bat """
+                    sh """
                         docker ps -a -q --filter "name=springboot-container" | findstr . && docker rm -f springboot-container || echo No container to stop
                         docker run -d -p 8081:8081 --name springboot-container --network my-network %DOCKER_IMAGE%:latest
                     """
